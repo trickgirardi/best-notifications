@@ -5,6 +5,7 @@ import { Github, Mail } from "lucide-react";
 import Link from "next/link";
 
 const Login = () => {
+
   return (
     <div className="h-screen w-screen bg-white flex items-center justify-center">
       <Card className="p-2 space-y-2 w-1/5 h-2/6">
