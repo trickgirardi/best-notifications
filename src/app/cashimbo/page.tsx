@@ -1,4 +1,4 @@
-import ProductFilter from "@/components/product-filters";
+import ProductFilters from "@/components/product-filters";
 import CreateProductDialog from "@/components/create-product-dialog";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -18,7 +18,7 @@ const Cashimbo = () => {
       <div className="flex items-center justify-between ">
         <h1 className="text-2xl font-semibold">Cashimbo</h1>
 
-        <ProductFilter />
+        <ProductFilters />
         <Dialog>
           <DialogTrigger asChild>
             <Button>

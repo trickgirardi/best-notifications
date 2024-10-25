@@ -1,12 +1,36 @@
-import { Search } from "lucide-react";
+"use client";
+
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { Search } from "lucide-react";
 
-const ProductFilter = () => {
+export const productsFiltersSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+});
+
+type ProductsFiltersSchema = z.infer<typeof productsFiltersSchema>;
+
+const ProductFilters = () => {
+  const { register, handleSubmit } = useForm<ProductsFiltersSchema>({
+    resolver: zodResolver(productsFiltersSchema),
+  });
+
+  const handleFilterProducts = (data: ProductsFiltersSchema) => {
+    console.log(data);
+  };
+
   return (
-    <form className="flex items-center gap-2" action="">
-      <Input name="ID" placeholder="ID da transação"></Input>
-      <Input name="Descrição" placeholder="Descrição da transação"></Input>
+    <form
+      onSubmit={handleSubmit(handleFilterProducts)}
+      className="flex items-center gap-2"
+      action=""
+    >
+      <Input placeholder="ID da transação" {...register("id")}></Input>
+      <Input placeholder="Descrição da transação" {...register("name")}></Input>
       <Button className="font-semibold" type="submit" variant="outline">
         <Search /> Filtrar
       </Button>
@@ -14,4 +38,4 @@ const ProductFilter = () => {
   );
 };
 
-export default ProductFilter;
+export default ProductFilters;
