@@ -25,9 +25,10 @@ const registerFormSchema = z.object({
       return name
         .trim()
         .split(" ")
-        .map(word => {
+        .map((word) => {
           return word[0].toLocaleUpperCase().concat(word.substring(1));
-        }).join(' ');
+        })
+        .join(" ");
     }),
   email: z
     .string()
@@ -35,6 +36,10 @@ const registerFormSchema = z.object({
     .email("Formato de e-mail inválido")
     .toLowerCase(),
   password: z.string().min(8, "A senha precisa de 8 caracteres ou mais"),
+  confirmPassword: z.string(),
+}).refine((fields) => fields.password === fields.confirmPassword, {
+  path: ['confirmPassword'],
+  message: 'As senhas precisam ser iguais'
 });
 
 type RegisterFormData = z.infer<typeof registerFormSchema>;
@@ -45,6 +50,7 @@ const RegisterFormPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormData>({
+    mode: "all",
     resolver: zodResolver(registerFormSchema),
   });
 
@@ -104,6 +110,21 @@ const RegisterFormPage = () => {
               {errors.password && (
                 <span className="text-sm text-destructive">
                   {errors.password.message}
+                </span>
+              )}
+            </div>
+            <div className="flex flex-col gap-1">
+              <Label className="ml-1" htmlFor="password">
+                Confirmar senha
+              </Label>
+              <Input
+                type="password"
+                placeholder="repita a senha"
+                {...register("confirmPassword")}
+              />
+              {errors.confirmPassword && (
+                <span className="text-sm text-destructive">
+                  {errors.confirmPassword.message}
                 </span>
               )}
             </div>
